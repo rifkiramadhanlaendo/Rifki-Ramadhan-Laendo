@@ -3,147 +3,1046 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biodata - Tugas 1 Eduwork</title>
+    <title>Rifki Store - Dukung Tim Kamu</title>
+    <!-- Bootstrap 5.3.2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts (Inter & Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --accent-color: #f59e0b;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            letter-spacing: -0.5px;
+        }
+
+        .cart-badge {
+            font-size: 0.7rem;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 0.35em 0.65em;
+            border-radius: 50%;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+        }
+
+        .filter-sidebar {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        /* Custom scrollbar untuk filter sidebar */
+        .filter-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .filter-sidebar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--card-shadow);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: #c7d2fe;
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            padding-top: 100%; /* Aspect ratio 1:1 */
+            background-color: #f8fafc;
+            overflow: hidden;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            backdrop-filter: blur(4px);
+        }
+
+        .product-details {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 2.8rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .product-title:hover {
+            color: var(--primary-color);
+        }
+
+        .product-description {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 2.4rem;
+        }
+
+        .product-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 0.6rem 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Toast Container */
+        .notification-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1090;
+            background: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notification-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- 1. Section 1: Menu -->
-    <header>
-        <nav>
-            <table width="100%" cellpadding="10">
-                <tr>
-                    <td><strong>Rifki Ramadhan Laendo</strong></td>
-                    <td align="right">
-                        <a href="#about">About Me</a> | 
-                        <a href="#portfolio">Portfolio</a> | 
-                        <a href="#contact">Contact</a>
-                    </td>
-                </tr>
-            </table>
-        </nav>
-    </header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fa-solid fa-bag-shopping me-2 fs-3"></i>
+                <span>Rifki Store</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Search bar di navbar untuk mobile dan pencarian cepat -->
+                <div class="mx-auto my-3 my-lg-0 w-50 d-none d-lg-block">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" id="navSearch" class="form-control border-start-0" placeholder="Cari produk impianmu di sini..." oninput="syncAndFilter(this.value)">
+                    </div>
+                </div>
+                
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link active px-3" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#products-section">Produk</a>
+                    </li>
+                    <li class="nav-item mt-2 mt-lg-0">
+                        <button class="btn btn-outline-primary position-relative d-flex align-items-center px-4" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                            <i class="fa-solid fa-cart-shopping me-2"></i>
+                            <span>Keranjang</span>
+                            <span id="cartCount" class="badge bg-danger cart-badge">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <hr>
+    <!-- Main Container -->
+    <main class="container my-4">
+        <!-- Hero Promo Banner -->
+        <div class="hero-banner">
+            <div class="row align-items-center">
+                <div class="col-lg-7 z-2">
+                    <span class="badge bg-warning text-dark mb-3 px-3 py-2 fw-semibold">DISKON HINGGA 50%</span>
+                    <h1 class="display-5 fw-bold mb-3">Dukung Tim Sepakbola Kamu dengan Menggunakan Jersey Kebangkaan!</h1>
+                    <p class="lead mb-4">Temukan koleksi eksklusif jersey timnas kebanggan kamu di Rifki Store</p>
+                    <a href="#products-section" class="btn btn-light btn-lg text-primary fw-semibold px-4 py-3 shadow-sm">Belanja Sekarang <i class="fa-solid fa-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+        </div>
 
-    <!-- 2. Section 2: Judul di kiri dan Gambar di kanan -->
-    <main>
-        <section id="about">
-            <table width="100%" cellpadding="20">
-                <tr>
-                    <td width="60%" valign="top">
-                        <h1>Selamat Datang di Halaman Saya</h1>
-                        <p>
-                            Halo! Saya adalah peserta Bootcamp Web Programming di Eduwork Batch 9. 
-                            Saat ini saya sedang bersemangat mempelajari dunia pengembangan web dari dasar hingga mahir. 
-                            Halaman ini dibuat murni menggunakan HTML untuk memenuhi tugas pertama saya.
-                        </p>
-                    </td>
-                    <td width="40%" align="center">
-                        <!-- Kamu bisa mengganti URL gambar ini dengan foto kotak placeholder lain atau foto kamu sendiri -->
-                        <img src="images home.jpg" alt="Gambar Luffy" width="100%" style="max-width: 400px; border: 1px solid #ccc;">
-                    </td>
-                </tr>
-            </table>
-        </section>
+        <!-- Products Section -->
+        <div class="row g-4" id="products-section">
+            
+            <!-- Sidebar Filter -->
+            <aside class="col-lg-3">
+                <div class="filter-sidebar">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold m-0"><i class="fa-solid fa-sliders me-2"></i>Filter</h5>
+                        <button class="btn btn-sm btn-link text-decoration-none text-muted p-0" id="resetFiltersBtn">Reset</button>
+                    </div>
 
-        <hr>
+                    <!-- Filter Pencarian -->
+                    <div class="mb-4">
+                        <label for="searchFilter" class="form-label fw-semibold text-muted small">CARI PRODUK</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                            <input type="text" id="searchFilter" class="form-control bg-light border-start-0" placeholder="Nama produk...">
+                        </div>
+                    </div>
 
-        <!-- 3. Section 3: Biodata dengan 8 Box (Menggunakan HTML Table) -->
-        <section>
-            <h2 align="center">About Me</h2>
-            <table border="1" width="100%" cellpadding="15" cellspacing="0" align="center">
-                <!-- Baris 1 -->
-                <tr>
-                    <td width="25%" align="center">
-                        <strong>Nama Lengkap</strong><br>Rifki Ramadhan Laendo
-                    </td>
-                    <td width="25%" align="center">
-                        <strong>Nama Panggilan</strong><br>Adan
-                    </td>
-                    <td width="25%" align="center">
-                        <strong>Kota Asal</strong><br>Maluku
-                    </td>
-                    <td width="25%" align="center">
-                        <strong>Tanggal Lahir</strong><br>06 Desember 2000
-                    </td>
-                </tr>
-                <!-- Baris 2 -->
-                <tr>
-                    <td align="center">
-                        <strong>Pendidikan</strong><br>S1 Manajemen
-                    </td>
-                    <td align="center">
-                        <strong>Hobi</strong><br>Olahraga
-                    </td>
-                    <td align="center">
-                        <strong>Cita-cita</strong><br>Fullstack Developer
-                    </td>
-                    <td align="center">
-                        <strong>Status</strong><br>Peserta Eduwork
-                    </td>
-                </tr>
-            </table>
-        </section>
+                    <!-- Filter Kategori -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-muted small mb-2">KATEGORI</label>
+                        <div id="categoryContainer">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="categoryFilter" id="cat-all" value="all" checked>
+                                <label class="form-check-label w-full d-flex justify-content-between" for="cat-all">
+                                    <span>Semua Kategori</span>
+                                </label>
+                            </div>
+                            <!-- Kategori dinamis akan dimasukkan di sini via JS -->
+                        </div>
+                    </div>
 
-        <br><hr>
+                    <!-- Filter Rentang Harga -->
+                    <div class="mb-4">
+                        <label for="priceRange" class="form-label fw-semibold text-muted small d-flex justify-content-between">
+                            <span>MAKSIMAL HARGA</span>
+                            <span id="priceRangeValue" class="text-primary fw-bold">Rp 2.000.000</span>
+                        </label>
+                        <input type="range" class="form-range" id="priceRange" min="0" max="2000000" step="50000" value="2000000">
+                        <div class="d-flex justify-content-between text-muted small mt-1">
+                            <span>Rp 0</span>
+                            <span>Rp 2jt</span>
+                        </div>
+                    </div>
 
-        <!-- 4. Section 4: Portofolio -->
-        <section id="portfolio">
-            <h2 align="center">Portfolio</h2>
-            <table width="100%" cellpadding="10">
-                <tr>
-                    <!-- Box Portofolio 1 -->
-                    <td width="33.33%" align="center">
-                        <table border="1" width="100%" cellpadding="10" cellspacing="0">
-                            <tr>
-                                <td align="center" bgcolor="#f0f0f0"><strong>Project 1</strong></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="images 1.jpg" alt="Project 1" width="100%" style="max-height: 150px; object-fit: cover;">
-                                    <p>Tugas HTML Dasar</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <!-- Box Portofolio 2 -->
-                    <td width="33.33%" align="center">
-                        <table border="1" width="100%" cellpadding="10" cellspacing="0">
-                            <tr>
-                                <td align="center" bgcolor="#f0f0f0"><strong>Project 2</strong></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="images 2.png" alt="Project 2" width="100%" style="max-height: 150px; object-fit: cover;">
-                                    <p>Konfigurasi repository lokal dengan Git</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <!-- Box Portofolio 3 -->
-                    <td width="33.33%" align="center">
-                        <table border="1" width="100%" cellpadding="10" cellspacing="0">
-                            <tr>
-                                <td align="center" bgcolor="#f0f0f0"><strong>Project 3</strong></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="images 3.jpg" alt="Project 3" width="100%" style="max-height: 150px; object-fit: cover;">
-                                    <p>Memanfaatkan ChatGPT sebagai asisten AI pembantu penulisan struktur tag HTML.</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </section>
+                    <!-- Urutkan Berdasarkan -->
+                    <div>
+                        <label for="sortBy" class="form-label fw-semibold text-muted small">URUTKAN</label>
+                        <select class="form-select bg-light" id="sortBy">
+                            <option value="default">Rekomendasi</option>
+                            <option value="price-asc">Harga: Rendah ke Tinggi</option>
+                            <option value="price-desc">Harga: Tinggi ke Rendah</option>
+                            <option value="name-asc">Nama: A - Z</option>
+                            <option value="name-desc">Nama: Z - A</option>
+                        </select>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Product Grid Area -->
+            <section class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Menampilkan <span id="productCount" class="text-primary">0</span> Produk</h4>
+                    <span class="text-muted small d-none d-md-inline">Temukan Jersey Tim Sepak Bola Kamu</span>
+                </div>
+
+                <!-- Loader Indicator -->
+                <div id="productLoader" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted mt-2">Mencari barang terbaik untuk Anda...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-5 d-none">
+                    <i class="fa-solid fa-ban text-muted display-1 mb-3"></i>
+                    <h5>Produk Tidak Ditemukan</h5>
+                    <p class="text-muted">Cobalah mengubah kata kunci pencarian atau filter harga Anda.</p>
+                </div>
+
+                <!-- Grid List Produk -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="productGrid">
+                    <!-- Produk akan dimasukkan melalui JavaScript -->
+                </div>
+            </section>
+
+        </div>
     </main>
 
-    <br><hr>
-
-    <footer id="contact" align="center">
-        <p>&copy; 2026 Rifki Ramadhan Laendo - Eduwork Web Programming Batch 9</p>
+    <!-- Footer -->
+    <footer class="bg-white border-top py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <h5 class="fw-bold text-primary mb-3"><i class="fa-solid fa-bag-shopping me-2"></i>Rifki Store</h5>
+                    <p class="text-muted small">Platform belanja online terlengkap, tercepat, dan terpercaya. Kami menyediakan barang-barang orisinal pilihan dengan jaminan mutu terbaik.</p>
+                </div>
+                <div class="col-6 col-md-2 offset-md-2">
+                    <h6 class="fw-bold mb-3">Kategori Terpopuler</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li><a href="#" class="text-decoration-none text-reset mb-2 d-block">Olahraga</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2">
+                    <h6 class="fw-bold mb-3">Bantuan</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li><a href="#" class="text-decoration-none text-reset mb-2 d-block">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-decoration-none text-reset mb-2 d-block">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-decoration-none text-reset mb-2 d-block">Hubungi Kami</a></li>
+                        <li><a href="#" class="text-decoration-none text-reset mb-2 d-block">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6 class="fw-bold mb-3">Ikuti Kami</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-muted fs-5"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="text-muted fs-5"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-muted fs-5"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="text-muted fs-5"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="text-muted">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-muted small pt-2">
+                <p class="mb-0">&copy; 2026 Rifki Store. Seluruh Hak Cipta Dilindungi.</p>
+                <p class="mb-0">Dibuat dengan <i class="fa-solid fa-heart text-danger"></i> untuk belanja mudah Anda.</p>
+            </div>
+        </div>
     </footer>
 
+    <!-- Offcanvas Keranjang Belanja (Sidebar Belanja) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel">
+                <i class="fa-solid fa-cart-shopping me-2 text-primary"></i>Keranjang Belanja
+            </h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+            <!-- Isi Keranjang Dinamis -->
+            <div id="cartItemsList" class="flex-grow-1 overflow-auto pe-2">
+                <!-- Template Item Keranjang Belanja -->
+            </div>
+            
+            <!-- Ringkasan Harga & Checkout -->
+            <div class="border-top pt-3 mt-3">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Subtotal:</span>
+                    <span id="cartSubtotal" class="fw-bold text-dark">Rp 0</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="text-muted">Estimasi Pajak (11%):</span>
+                    <span id="cartTax" class="fw-bold text-muted">Rp 0</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-4 align-items-center">
+                    <span class="fw-bold">Total Pembayaran:</span>
+                    <span id="cartTotal" class="fs-4 fw-bold text-primary">Rp 0</span>
+                </div>
+                <button class="btn btn-primary w-100 py-3" id="checkoutBtn">
+                    <i class="fa-solid fa-credit-card me-2"></i>Lanjut ke Pembayaran
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detail Produk -->
+    <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-shadow="none" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="position-relative bg-light rounded-4 overflow-hidden p-2">
+                                <img src="" id="modalProductImg" class="img-fluid rounded-4 w-100" alt="Produk Image" style="object-fit: cover; aspect-ratio: 1/1;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex flex-column justify-content-between">
+                            <div>
+                                <span class="badge bg-light text-primary mb-2" id="modalProductCategory">Kategori</span>
+                                <h3 class="fw-bold text-dark mb-2" id="modalProductTitle">Nama Produk</h3>
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="text-warning me-2" id="modalProductRating">
+                                        <!-- Rating stars -->
+                                    </div>
+                                    <span class="text-muted small" id="modalProductReviews">(4.5/5 rating pembeli)</span>
+                                </div>
+                                <h4 class="text-primary fw-bold mb-3" id="modalProductPrice">Rp 0</h4>
+                                <p class="text-muted small mb-4" id="modalProductDescription">Deskripsi produk secara mendalam akan dituliskan di sini.</p>
+                            </div>
+                            <div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="adjustModalQty(-1)"><i class="fa-solid fa-minus"></i></button>
+                                            <input type="number" class="form-control text-center px-1" id="modalQty" value="1" min="1" max="99">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="adjustModalQty(1)"><i class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button class="btn btn-primary w-100" id="modalAddBtn">
+                                            <i class="fa-solid fa-cart-plus me-2"></i>Tambah Ke Keranjang
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center text-success small">
+                                    <i class="fa-solid fa-shield-halved me-2"></i>
+                                    <span>Garansi Toko Resmi & Pengembalian Mudah 14 Hari</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Custom -->
+    <div id="notificationToast" class="notification-toast d-flex align-items-center gap-2">
+        <i class="fa-solid fa-circle-check text-success fs-5"></i>
+        <span id="notificationText">Produk ditambahkan ke keranjang!</span>
+    </div>
+
+    <!-- Bootstrap Bundle JS (dengan Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // DATA PRODUK (Tepat 10 Jersey Timnas Unggulan)
+        const products = [
+            {
+                id: 1,
+                name: "Jersey Timnas Indonesia Home 2026/2027",
+                price: 899000,
+                description: "Jersey kandang resmi Timnas Indonesia dengan warna merah kebesaran, logo garuda bertekstur premium, dan teknologi sirkulasi udara mutakhir untuk kenyamanan maksimal di lapangan.",
+                category: "Asia",
+                rating: 5,
+                image: "jersey ind.jpg"
+            },
+            {
+                id: 2,
+                name: "Jersey Timnas Indonesia Away 2026/2027",
+                price: 899000,
+                description: "Jersey tandang resmi Timnas Indonesia bernuansa putih klasik dengan aksen hijau pirus. Dilengkapi rajutan jahitan performa tinggi yang elastis dan ringan.",
+                category: "Asia",
+                rating: 5,
+                image: "Jersei away ind.avif"
+            },
+            {
+                id: 3,
+                name: "Jersey Timnas Prancis Home 2026 - Player Edition",
+                price: 1499000,
+                description: "Kenakan kebanggaan Les Bleus dengan jersey biru navy berkelas. Edisi pemain ini dirancang dengan teknologi rajutan presisi tinggi untuk performa atletik optimal.",
+                category: "Eropa",
+                rating: 5,
+                image: "jersey perancis.jpg"
+            },
+            {
+                id: 4,
+                name: "Jersey Timnas Argentina Home 3-Star",
+                price: 1699000,
+                description: "Jersey resmi La Albiceleste dengan tiga bintang emas tanda juara dunia. Menampilkan garis vertikal biru langit dan putih ikonik dengan emblem resmi berlapis emas.",
+                category: "Amerika",
+                rating: 5,
+                image: "jersey argen.jpg"
+            },
+            {
+                id: 5,
+                name: "Jersey Timnas Brasil Home Classic",
+                price: 1499000,
+                description: "Jersey kuning ikonik Seleção dengan kerah hijau yang legendaris. Terbuat dari serat daur ulang performa tinggi dengan kenyamanan luar biasa saat berkeringat.",
+                category: "Amerika",
+                rating: 4,
+                image: "Jersey Brazil.jpg"
+            },
+            {
+                id: 6,
+                name: "Jersey Timnas Jepang Special Edition",
+                price: 1599000,
+                description: "Edisi khusus Samurai Blue dengan motif seni kontemporer khas Jepang. Memadukan estetika tradisional dengan performa olahraga modern kelas dunia.",
+                category: "Asia",
+                rating: 5,
+                image: "Jersey jepang.jpg"
+            },
+            {
+                id: 7,
+                name: "Jersey Timnas Jerman Home Classic 2026",
+                price: 1499000,
+                description: "Jersey kandang putih elegan dari Die Mannschaft dengan detail bendera triwarna yang modern di bagian bahu. Potongan slim-fit yang sporty.",
+                category: "Eropa",
+                rating: 4,
+                image: "Jersey Germany.jpg"
+            },
+            {
+                id: 8,
+                name: "Jersey Timnas Inggris Away Pro",
+                price: 1399000,
+                description: "Jersey tandang resmi The Three Lions. Hadir dengan warna merah/biru gelap yang modern, dilengkapi kerah klasik dan emblem bordir yang sangat rapi.",
+                category: "Eropa",
+                rating: 4,
+                image: "Jersey inggris.jpg"
+            },
+            {
+                id: 9,
+                name: "Jersey Timnas Spanyol Home 2026",
+                price: 1499000,
+                description: "Jersey merah membara kebanggaan La Roja. Menampilkan detail pola grafis anyaman khas Spanyol dan material berteknologi pendingin tubuh aktif.",
+                category: "Eropa",
+                rating: 5,
+                image: "Jersey Spanyol.jpg"
+            },
+            {
+                id: 10,
+                name: "Jersey Timnas Belanda Orange Oranje",
+                price: 1399000,
+                description: "Tunjukkan dukunganmu untuk tim Oranje dengan warna oranye menyala yang khas. Desain minimalis yang sangat kasual untuk dipakai di dalam maupun luar stadion.",
+                category: "Eropa",
+                rating: 4,
+                image: "Jersey Belanda.jpg"
+            }
+        ];
+
+        // STATE APLIKASI
+        let cart = [];
+        let activeFilters = {
+            search: "",
+            category: "all",
+            maxPrice: 2000000,
+            sortBy: "default"
+        };
+
+        // ELEMEN DOM
+        const productGrid = document.getElementById("productGrid");
+        const productCount = document.getElementById("productCount");
+        const emptyState = document.getElementById("emptyState");
+        const productLoader = document.getElementById("productLoader");
+        const categoryContainer = document.getElementById("categoryContainer");
+        const priceRange = document.getElementById("priceRange");
+        const priceRangeValue = document.getElementById("priceRangeValue");
+        const searchFilter = document.getElementById("searchFilter");
+        const navSearch = document.getElementById("navSearch");
+        const sortBy = document.getElementById("sortBy");
+        const resetFiltersBtn = document.getElementById("resetFiltersBtn");
+        
+        // Cart DOM Elements
+        const cartCount = document.getElementById("cartCount");
+        const cartItemsList = document.getElementById("cartItemsList");
+        const cartSubtotal = document.getElementById("cartSubtotal");
+        const cartTax = document.getElementById("cartTax");
+        const cartTotal = document.getElementById("cartTotal");
+        const checkoutBtn = document.getElementById("checkoutBtn");
+
+        // Modal DOM Elements
+        const modalProductImg = document.getElementById("modalProductImg");
+        const modalProductCategory = document.getElementById("modalProductCategory");
+        const modalProductTitle = document.getElementById("modalProductTitle");
+        const modalProductRating = document.getElementById("modalProductRating");
+        const modalProductPrice = document.getElementById("modalProductPrice");
+        const modalProductDescription = document.getElementById("modalProductDescription");
+        const modalQty = document.getElementById("modalQty");
+        const modalAddBtn = document.getElementById("modalAddBtn");
+
+        let activeDetailProductId = null;
+
+        // INIALISASI WEBSITE
+        window.addEventListener('DOMContentLoaded', () => {
+            generateCategoryFilters();
+            renderProducts();
+            setupEventListeners();
+        });
+
+        // Membuat filter kategori dinamis
+        function generateCategoryFilters() {
+            const categories = ["all", ...new Set(products.map(p => p.category))];
+            categoryContainer.innerHTML = "";
+            
+            categories.forEach(cat => {
+                const isChecked = cat === "all" ? "checked" : "";
+                const labelText = cat === "all" ? "Semua Kategori" : cat;
+                const count = cat === "all" ? products.length : products.filter(p => p.category === cat).length;
+                
+                const catElement = document.createElement("div");
+                catElement.className = "form-check mb-2";
+                catElement.innerHTML = `
+                    <input class="form-check-input" type="radio" name="categoryFilter" id="cat-${cat}" value="${cat}" ${isChecked}>
+                    <label class="form-check-label w-100 d-flex justify-content-between align-items-center" for="cat-${cat}">
+                        <span>${labelText}</span>
+                        <span class="badge bg-light text-muted border font-monospace">${count}</span>
+                    </label>
+                `;
+                categoryContainer.appendChild(catElement);
+            });
+        }
+
+        // Memformat angka ke Rupiah
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(number);
+        }
+
+        // Menampilkan produk berdasarkan filter saat ini
+        function renderProducts() {
+            // Aktifkan loader animasi singkat
+            productLoader.classList.remove("d-none");
+            productGrid.classList.add("opacity-50");
+
+            setTimeout(() => {
+                let filtered = products.filter(p => {
+                    const matchesSearch = p.name.toLowerCase().includes(activeFilters.search.toLowerCase()) || 
+                                          p.description.toLowerCase().includes(activeFilters.search.toLowerCase());
+                    const matchesCategory = activeFilters.category === "all" || p.category === activeFilters.category;
+                    const matchesPrice = p.price <= activeFilters.maxPrice;
+                    return matchesSearch && matchesCategory && matchesPrice;
+                });
+
+                // Proses Sorting
+                if (activeFilters.sortBy === "price-asc") {
+                    filtered.sort((a, b) => a.price - b.price);
+                } else if (activeFilters.sortBy === "price-desc") {
+                    filtered.sort((a, b) => b.price - a.price);
+                } else if (activeFilters.sortBy === "name-asc") {
+                    filtered.sort((a, b) => a.name.localeCompare(b.name));
+                } else if (activeFilters.sortBy === "name-desc") {
+                    filtered.sort((a, b) => b.name.localeCompare(a.name));
+                }
+
+                // Render grid
+                productGrid.innerHTML = "";
+                productCount.innerText = filtered.length;
+                productLoader.classList.add("d-none");
+                productGrid.classList.remove("opacity-50");
+
+                if (filtered.length === 0) {
+                    emptyState.classList.remove("d-none");
+                } else {
+                    emptyState.classList.add("d-none");
+                    filtered.forEach(p => {
+                        const productCard = document.createElement("div");
+                        productCard.className = "col";
+                        productCard.innerHTML = `
+                            <div class="product-card">
+                                <div class="product-img-wrapper">
+                                    <span class="category-badge">${p.category}</span>
+                                    <img src="${p.image}" class="product-img" alt="${p.name}" onerror="this.onerror=null;this.src='https://placehold.co/400x400/e2e8f0/4f46e5?text=Gambar+Rusak';">
+                                </div>
+                                <div class="product-details">
+                                    <a href="#" class="product-title" onclick="showProductDetails(${p.id}); event.preventDefault();">${p.name}</a>
+                                    <div class="text-warning small mb-2">
+                                        ${getStarRatingHTML(p.rating)}
+                                    </div>
+                                    <p class="product-description">${p.description}</p>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                                        <div class="product-price">${formatRupiah(p.price)}</div>
+                                        <button class="btn btn-primary btn-sm px-3" onclick="addToCart(${p.id}, 1)">
+                                            <i class="fa-solid fa-cart-plus me-1"></i> Beli
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        productGrid.appendChild(productCard);
+                    });
+                }
+            }, 250); // Delay halus visual
+        }
+
+        // Membuat star rating icon
+        function getStarRatingHTML(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fa-solid fa-star"></i> ';
+                } else {
+                    stars += '<i class="fa-regular fa-star text-muted"></i> ';
+                }
+            }
+            return stars;
+        }
+
+        // Sinkronisasi input pencarian navbar dan filter sidebar
+        function syncAndFilter(value) {
+            searchFilter.value = value;
+            activeFilters.search = value;
+            renderProducts();
+        }
+
+        // SETUP EVENT LISTENERS
+        function setupEventListeners() {
+            // Event Pencarian Sidebar
+            searchFilter.addEventListener("input", (e) => {
+                navSearch.value = e.target.value;
+                activeFilters.search = e.target.value;
+                renderProducts();
+            });
+
+            // Event Kategori Radio Buttons
+            categoryContainer.addEventListener("change", (e) => {
+                if (e.target.name === "categoryFilter") {
+                    activeFilters.category = e.target.value;
+                    renderProducts();
+                }
+            });
+
+            // Event Rentang Harga Slider
+            priceRange.addEventListener("input", (e) => {
+                const val = parseInt(e.target.value);
+                priceRangeValue.innerText = formatRupiah(val);
+                activeFilters.maxPrice = val;
+                renderProducts();
+            });
+
+            // Event Pengurutan Sort
+            sortBy.addEventListener("change", (e) => {
+                activeFilters.sortBy = e.target.value;
+                renderProducts();
+            });
+
+            // Event Tombol Reset Filter
+            resetFiltersBtn.addEventListener("click", () => {
+                searchFilter.value = "";
+                navSearch.value = "";
+                document.getElementById("cat-all").checked = true;
+                priceRange.value = 2000000;
+                priceRangeValue.innerText = formatRupiah(2000000);
+                sortBy.value = "default";
+
+                activeFilters = {
+                    search: "",
+                    category: "all",
+                    maxPrice: 2000000,
+                    sortBy: "default"
+                };
+                renderProducts();
+            });
+
+            // Event Tombol Checkout
+            checkoutBtn.addEventListener("click", () => {
+                if (cart.length === 0) {
+                    showNotification("Keranjang Anda masih kosong!", "error");
+                    return;
+                }
+                
+                // Menutup Offcanvas
+                const cartCanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartOffcanvas'));
+                if (cartCanvas) cartCanvas.hide();
+
+                // Simulasi checkout sukses, menggantikan alert() bawaan browser
+                showSuccessCheckoutModal();
+            });
+        }
+
+        // SISTEM KERANJANG BELANJA
+        function addToCart(productId, qty) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.product.id === productId);
+            if (existingItem) {
+                existingItem.qty += qty;
+            } else {
+                cart.push({ product, qty });
+            }
+
+            updateCartUI();
+            showNotification(`Berhasil menambahkan <strong>${product.name}</strong> ke keranjang!`);
+        }
+
+        function updateCartUI() {
+            // Update total jumlah badge keranjang
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            cartCount.innerText = totalItems;
+
+            // Render isi keranjang
+            cartItemsList.innerHTML = "";
+            let subtotal = 0;
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `
+                    <div class="text-center py-5 text-muted">
+                        <i class="fa-solid fa-cart-flatbed-suitcases display-4 mb-3"></i>
+                        <p class="small">Keranjang belanja Anda masih kosong.</p>
+                    </div>
+                `;
+            } else {
+                cart.forEach(item => {
+                    const itemTotal = item.product.price * item.qty;
+                    subtotal += itemTotal;
+
+                    const cartItemHTML = document.createElement("div");
+                    cartItemHTML.className = "d-flex align-items-center gap-3 mb-3 pb-3 border-bottom";
+                    cartItemHTML.innerHTML = `
+                        <img src="${item.product.image}" class="rounded" alt="${item.product.name}" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div class="flex-grow-1">
+                            <h6 class="fw-semibold mb-1 small text-truncate" style="max-width: 150px;">${item.product.name}</h6>
+                            <span class="text-primary small fw-bold">${formatRupiah(item.product.price)}</span>
+                            <div class="d-flex align-items-center gap-2 mt-2">
+                                <button class="btn btn-sm btn-light py-0 px-2" onclick="changeQty(${item.product.id}, -1)">-</button>
+                                <span class="small font-monospace">${item.qty}</span>
+                                <button class="btn btn-sm btn-light py-0 px-2" onclick="changeQty(${item.product.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <span class="small d-block fw-bold">${formatRupiah(itemTotal)}</span>
+                            <button class="btn btn-link text-danger p-0 mt-1 small text-decoration-none" onclick="removeFromCart(${item.product.id})">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    `;
+                    cartItemsList.appendChild(cartItemHTML);
+                });
+            }
+
+            // Hitung Pajak dan Total
+            const tax = subtotal * 0.11; // 11% PPN
+            const total = subtotal + tax;
+
+            cartSubtotal.innerText = formatRupiah(subtotal);
+            cartTax.innerText = formatRupiah(tax);
+            cartTotal.innerText = formatRupiah(total);
+        }
+
+        function changeQty(productId, amount) {
+            const item = cart.find(i => i.product.id === productId);
+            if (!item) return;
+
+            item.qty += amount;
+            if (item.qty <= 0) {
+                removeFromCart(productId);
+            } else {
+                updateCartUI();
+            }
+        }
+
+        function removeFromCart(productId) {
+            const itemIndex = cart.findIndex(i => i.product.id === productId);
+            if (itemIndex > -1) {
+                const itemName = cart[itemIndex].product.name;
+                cart.splice(itemIndex, 1);
+                updateCartUI();
+                showNotification(`<strong>${itemName}</strong> dihapus dari keranjang.`, "warning");
+            }
+        }
+
+        // DETAIL PRODUK DI MODAL
+        function showProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            activeDetailProductId = productId;
+            modalProductImg.src = product.image;
+            modalProductCategory.innerText = product.category;
+            modalProductTitle.innerText = product.name;
+            modalProductRating.innerHTML = getStarRatingHTML(product.rating);
+            modalProductPrice.innerText = formatRupiah(product.price);
+            modalProductDescription.innerText = product.description;
+            modalQty.value = 1;
+
+            // Atur event klik tombol tambah di dalam modal
+            modalAddBtn.onclick = () => {
+                const qty = parseInt(modalQty.value);
+                addToCart(productId, qty);
+                
+                // Menutup Modal
+                const modalEl = document.getElementById('productDetailModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+            };
+
+            // Menampilkan Modal via Bootstrap JS
+            const myModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+            myModal.show();
+        }
+
+        function adjustModalQty(amount) {
+            let curVal = parseInt(modalQty.value);
+            curVal += amount;
+            if (curVal < 1) curVal = 1;
+            modalQty.value = curVal;
+        }
+
+        // NOTIFIKASI TOAST CUSTOM
+        function showNotification(message, type = "success") {
+            const toast = document.getElementById("notificationToast");
+            const text = document.getElementById("notificationText");
+
+            // Mengganti warna icon & background berdasarkan tipe notifikasi
+            if (type === "success") {
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-success fs-5"></i> <span>${message}</span>`;
+            } else if (type === "warning") {
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-warning fs-5"></i> <span>${message}</span>`;
+            } else {
+                toast.innerHTML = `<i class="fa-solid fa-circle-xmark text-danger fs-5"></i> <span>${message}</span>`;
+            }
+
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // Tampilan sukses checkout custom (Pesan Sukses Premium)
+        function showSuccessCheckoutModal() {
+            // Membuat wadah dinamis baru untuk pesan sukses
+            const successDiv = document.createElement("div");
+            successDiv.innerHTML = `
+                <div class="modal fade" id="checkoutSuccessModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content text-center p-4 rounded-4 border-0 shadow">
+                            <div class="modal-body">
+                                <div class="text-success mb-3">
+                                    <i class="fa-solid fa-circle-check" style="font-size: 5rem;"></i>
+                                </div>
+                                <h3 class="fw-bold text-dark mb-2">Pemesanan Sukses!</h3>
+                                <p class="text-muted">Terima kasih atas pembelian Anda. Invoice belanja resmi telah dikirim ke alamat email Anda. Mohon tunggu konfirmasi pengiriman paket dari kurir kami.</p>
+                                <button type="button" class="btn btn-primary px-5 py-2 mt-3" data-bs-dismiss="modal">Selesai</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(successDiv);
+            
+            // Tampilkan modal sukses
+            const successModal = new bootstrap.Modal(document.getElementById('checkoutSuccessModal'));
+            successModal.show();
+
+            // Reset keranjang belanja
+            cart = [];
+            updateCartUI();
+
+            // Membersihkan modal dari DOM setelah ditutup
+            document.getElementById('checkoutSuccessModal').addEventListener('hidden.bs.modal', function () {
+                successDiv.remove();
+            });
+        }
+    </script>
 </body>
 </html>
