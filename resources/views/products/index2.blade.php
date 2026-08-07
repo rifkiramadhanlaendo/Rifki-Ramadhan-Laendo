@@ -3,41 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Produk - Toko Online</title>
+    <title>Daftar Produk - Toko Online Saya</title>
 </head>
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f9f9f9;">
+<body style="margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; color: #1e293b; display: flex; flex-direction: column; min-height: 100vh;">
 
     <!-- Memanggil Komponen Navbar -->
     @include('components.navbar')
 
-    <div style="padding: 30px; max-width: 1000px; margin: auto;">
-        <h1 style="color: #333; border-bottom: 2px solid #ddd; padding-bottom: 10px;">Daftar Produk Pilihan</h1>
+    <!-- Konten Utama Daftar Produk -->
+    <div style="flex: 1; padding: 40px 20px; max-width: 1200px; margin: 0 auto; width: 100%;">
         
-        <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
-            <!-- Produk 1 -->
-            <div style="background: white; border: 1px solid #ddd; padding: 15px; width: 250px; border-radius: 5px;">
-                <h3>Laptop Gaming Pro</h3>
-                <p style="color: #666;">Spesifikasi gahar untuk kerja dan gaming.</p>
-                <p style="font-weight: bold; color: #27ae60;">Rp 12.500.000</p>
-                <a href="/keranjang" style="background: #2980b9; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; display: inline-block;">Beli / Masuk Keranjang</a>
-            </div>
-
-            <!-- Produk 2 -->
-            <div style="background: white; border: 1px solid #ddd; padding: 15px; width: 250px; border-radius: 5px;">
-                <h3>Smartphone X</h3>
-                <p style="color: #666;">Kamera jernih baterai tahan seharian.</p>
-                <p style="font-weight: bold; color: #27ae60;">Rp 4.200.000</p>
-                <a href="/keranjang" style="background: #2980b9; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; display: inline-block;">Beli / Masuk Keranjang</a>
-            </div>
-
-            <!-- Produk 3 -->
-            <div style="background: white; border: 1px solid #ddd; padding: 15px; width: 250px; border-radius: 5px;">
-                <h3>Headphone Bluetooth</h3>
-                <p style="color: #666;">Suara jernih bass mantap anti bising.</p>
-                <p style="font-weight: bold; color: #27ae60;">Rp 750.000</p>
-                <a href="/keranjang" style="background: #2980b9; color: white; padding: 8px 12px; text-decoration: none; border-radius: 4px; display: inline-block;">Beli / Masuk Keranjang</a>
-            </div>
+        <div style="margin-bottom: 30px; text-align: center;">
+            <h1 style="color: #0f172a; font-size: 30px; margin-bottom: 10px; font-weight: 800;">Daftar Produk Pilihan</h1>
+            <p style="color: #64748b; font-size: 15px; margin: 0;">Pilih produk berkualitas dengan penawaran terbaik dari toko kami.</p>
         </div>
+        
+        <!-- Grid Produk -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
+            @foreach($products as $product)
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s;">
+                    <div>
+                        <div style="background-color: #f1f5f9; color: #475569; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; margin-bottom: 10px;">
+                            Stok: {{ $product['stock'] }}
+                        </div>
+                        <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size: 18px; font-weight: 700;">{{ $product['name'] }}</h3>
+                        <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 0 0 20px 0;">{{ $product['description'] }}</p>
+                    </div>
+                    
+                    <a href="/keranjang" style="background-color: #2563eb; color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; font-size: 14px; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">
+                        Beli Sekarang
+                    </a>
+                </div>
+            @endforeach
+        </div>
+
     </div>
 
     <!-- Memanggil Komponen Footer -->
