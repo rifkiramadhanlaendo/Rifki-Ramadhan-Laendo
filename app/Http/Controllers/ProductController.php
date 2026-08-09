@@ -9,9 +9,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        // Mengambil data produk dengan relasi kategori dan pagination
-        $products = Product::with('category')->paginate(5);
+        // Mengambil semua data dari tabel products di database
+        $products = Product::all();
 
-        return view('products.index', compact('products'));
+        // Mengirim data produk ke halaman view products.blade.php
+        return view('products', compact('products'));
     }
 }

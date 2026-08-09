@@ -1,21 +1,26 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Daftar Produk - E-Commerce</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
-        h1 { color: #333; }
-        .product-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    </style>
-</head>
-<body>
-    <h1>Daftar Produk Pilihan</h1>
-    <div class="product-card">
-        <h3>Laptop Gaming Pro</h3>
-        <p>Harga: Rp 15.000.000</p>
-        <a href="/cart">Tambah ke Keranjang</a>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Daftar Produk Kami') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @forelse($products as $product)
+                    <div class="bg-white p-6 rounded-lg shadow border border-gray-100">
+                        <h3 class="text-lg font-bold text-red-600">{{ $product->name }}</h3>
+                        <p class="text-gray-600 mt-2 text-sm">{{ $product->description }}</p>
+                        <p class="mt-4 font-bold text-gray-900 text-lg">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+                        <button class="mt-4 w-full bg-red-600 text-white py-2 rounded-md font-semibold hover:bg-red-700 transition">Beli Sekarang</button>
+                    </div>
+                @empty
+                    <div class="col-span-3 text-center py-12 bg-white rounded-lg shadow">
+                        <p class="text-gray-500 text-lg">Belum ada produk yang tersedia saat ini.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
     </div>
-    <p><a href="/">&larr; Kembali ke Beranda</a></p>
-</body>
-</html>
+</x-app-layout>
