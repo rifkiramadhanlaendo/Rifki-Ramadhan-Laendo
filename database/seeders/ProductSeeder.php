@@ -1,30 +1,42 @@
+<?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        // Kosongkan tabel terlebih dahulu (opsional) agar tidak duplikat saat seeding ulang
-        Product::truncate();
+        DB::table('products')->delete();
 
-        $products = [
-            ['name' => 'Laptop Gaming Pro', 'description' => 'Spesifikasi gahar untuk kerja dan gaming berat.', 'stock' => 10],
-            ['name' => 'Smartphone X', 'description' => 'Kamera jernih dengan baterai tahan seharian.', 'stock' => 15],
-            ['name' => 'Headphone Bluetooth', 'description' => 'Suara jernih bass mantap anti bising.', 'stock' => 25],
-            ['name' => 'Smartwatch Sport', 'description' => 'Pantau kesehatan dan aktivitas olahraga harian.', 'stock' => 20],
-            ['name' => 'Keyboard Mechanical RGB', 'description' => 'Sensasi mengetik nyaman dengan lampu LED RGB.', 'stock' => 30],
-            ['name' => 'Mouse Wireless Ergonomis', 'description' => 'Nyaman digunakan lama dan bebas kabel.', 'stock' => 40],
-            ['name' => 'Monitor LED 24 Inch', 'description' => 'Resolusi Full HD tajam untuk desain dan kerja.', 'stock' => 12],
-            ['name' => 'External SSD 512GB', 'description' => 'Transfer data super cepat dan portabel.', 'stock' => 18],
-            ['name' => 'Tas Ransel Laptop', 'description' => 'Anti air dengan slot khusus laptop dan gadget.', 'stock' => 35],
-            ['name' => 'Power Bank 20000mAh', 'description' => 'Kapasitas besar mendukung fast charging.', 'stock' => 22],
+        $names = [
+            1 => ['Smartphone X', 'Laptop Pro', 'Headphone Wireless', 'Smartwatch', 'Kamera Mirrorless', 'Mouse Gaming'],
+            2 => ['Kemeja Flanel', 'Kaos Polos', 'Jeans Slim Fit', 'Jaket Hoodie', 'Topi Baseball', 'Sepatu Sneakers'],
+            3 => ['Meja Kerja', 'Kursi Ergonomis', 'Lampu Meja', 'Rak Buku', 'Sprei Kasur', 'Panci Set'],
+            4 => ['Kopi Robusta', 'Teh Celup', 'Cokelat Batang', 'Keripik Singkong', 'Susu UHT', 'Mie Instan'],
+            5 => ['Novel Fiksi', 'Buku Resep', 'Buku Sejarah', 'Pulpen Gel', 'Buku Gambar', 'Penggaris Set']
         ];
 
-        foreach ($products as $product) {
-            Product::create($product);
+        $products = [];
+        foreach ($names as $catId => $itemNames) {
+            foreach ($itemNames as $index => $name) {
+                // Menggunakan gambar placeholder acak yang sesuai untuk produk
+                $products[] = [
+                    'name' => $name,
+                    'category_id' => $catId,
+                    'description' => 'Deskripsi lengkap untuk produk ' . $name . ' yang berkualitas tinggi.',
+                    'price' => rand(15000, 4500000),
+                    'stock' => rand(10, 50),
+                    'image' => 'https://picsum.photos/seed/product_' . $catId . '_' . $index . '/200/200',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            }
         }
+
+        DB::table('products')->insert($products);
     }
 }

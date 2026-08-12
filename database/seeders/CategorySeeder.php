@@ -9,10 +9,14 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
+        DB::table('categories')->delete();
+
         DB::table('categories')->insert([
-            ['name' => 'Elektronik', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Fashion Pria', 'created_at' => now(), 'updated_at' => now()],
-            ['name' => 'Fashion Wanita', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 1, 'name' => 'Elektronik'],
+            ['id' => 2, 'name' => 'Pakaian'],
+            ['id' => 3, 'name' => 'Perabotan Rumah'],
+            ['id' => 4, 'name' => 'Makanan & Minuman'],
+            ['id' => 5, 'name' => 'Buku & Alat Tulis'],
         ]);
     }
 }
