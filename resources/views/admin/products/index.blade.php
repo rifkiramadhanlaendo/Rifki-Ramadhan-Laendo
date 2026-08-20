@@ -1,59 +1,66 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-bold text-2xl text-red-700 leading-tight">
-                {{ __('List Produk') }}
-            </h2>
-            <a href="#" class="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-semibold hover:bg-red-700 transition">+ Tambah Produk</a>
-        </div>
-    </x-slot>
-
-    <div class="py-12 bg-gradient-to-br from-red-50 via-white to-gray-100 min-h-screen">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-xl border-t-4 border-red-600 p-6 overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead>
-                        <tr class="bg-gray-50">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stok</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($products as $product)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $product->id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($product->image)
-                                    @if(Str::startsWith($product->image, 'http'))
-                                        <img src="{{ $product->image }}" width="60" class="rounded object-cover shadow" alt="Produk">
-                                    @else
-                                        <img src="{{ asset('storage/' . $product->image) }}" width="60" class="rounded object-cover shadow" alt="Produk">
-                                    @endif
-                                @else
-                                    <span class="text-xs text-gray-400 italic">No Image</span>
-                                @endif
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">{{ $product->name }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{{ $product->description }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">{{ $product->stock }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-bold">Rp{{ number_format($product->price, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900 font-semibold">Edit</a>
-                                    <button class="text-red-600 hover:text-red-900 font-semibold">Hapus</button>
-                                </td>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800">Daftar Produk</h2>
+                    <a href="{{ route('admin.products.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">+ Tambah Produk</a>
+                </div>
+
+                @if(session('success'))
+                    <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr class="bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3">No</th>
+                                <th class="px-6 py-3">Gambar</th>
+                                <th class="px-6 py-3">Nama Produk</th>
+                                <th class="px-6 py-3">Kategori</th>
+                                <th class="px-6 py-3">Stok</th>
+                                <th class="px-6 py-3">Harga</th>
+                                <th class="px-6 py-3 text-center">Aksi</th>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500">Belum ada data produk.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse($products as $index => $product)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $index + 1 }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($product->image)
+                                            <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('storage/' . $product->image) }}" width="50" class="rounded shadow object-cover">
+                                        @else
+                                            <span class="text-gray-400 text-xs">No Image</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $product->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $product->category->name ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $product->stock }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium flex justify-center gap-2 items-center">
+                                        <!-- Tombol Edit -->
+                                        <a href="{{ route('admin.products.edit', $product->id) }}" class="text-indigo-600 hover:text-indigo-900 font-semibold bg-indigo-50 px-3 py-1 rounded">Edit</a>
+                                        
+                                        <!-- Tombol Hapus (Wajib menggunakan form DELETE) -->
+                                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-900 font-semibold bg-red-50 px-3 py-1 rounded">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">Belum ada data produk.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
