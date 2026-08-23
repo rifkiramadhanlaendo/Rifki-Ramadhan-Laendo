@@ -34,15 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route Khusus Admin (CRUD Produk & Kategori)
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('products', AdminProductController::class);
-    Route::resource('categories', CategoryController::class);
-});
-
 use App\Http\Controllers\Admin\DashboardController;
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+// Route Khusus Admin (Dilindungi middleware auth dan admin sekaligus)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('products', AdminProductController::class);
+    Route::resource('categories', CategoryController::class);
 });
 require __DIR__.'/auth.php';
