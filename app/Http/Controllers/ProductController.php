@@ -9,86 +9,103 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    // Menampilkan daftar produk
     public function index()
     {
         $products = Product::all();
         return view('admin.products.index', compact('products'));
     }
 
-   public function create()
+    // Menampilkan halaman tambah produk
+    public function create()
     {
         $categories = Category::all();
-        return view('products.tambah', compact('categories')); // Ubah bagian ini
+        return view('admin.products.create', compact('categories'));
     }
 
-    public function update(Request $request, Product $product)
+    // Menyimpan data produk baru (Sesi 21)
+    public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name'        => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'price'       => ['required', 'string', 'max:255'],
+            'category_id' => ['required', 'string', 'max:255'],
+            'image'       => ['required', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'stock'       => ['required', 'string', 'max:255'],
         ]);
 
-        $imagePath = $product->image;
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+        $product->stock = $request->stock;
+
+        // Menyimpan file gambar
         if ($request->hasFile('image')) {
-            if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
-            }
-            $imagePath = $request->file('image')->store('products', 'public');
+            $product->image = $request->file('image')->store('products', 'public');
         }
 
-        $product->update([
-            'name' => $request->name,
-            'category_id' => $request->category_id,
-            'description' => $request->description,
-            'price' => $request->price,
-            'image' => $imagePath,
-        ]);
+        $product->save();
 
-        return redirect()->route('products')->with('success', 'Produk berhasil diperbarui!');
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Product successfully created!');
     }
 
-    public function destroy(Product $product)
+    // Menampilkan halaman edit produk (Sesi 22)
+    public function edit($id)
     {
-        if ($product->image) {
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        return view('admin.products.edit', compact('product', 'categories'));
+    }
+
+    // Memproses update data produk (Sesi 22)
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name'        => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'price'       => ['required', 'string', 'max:255'],
+            'category_id' => ['required', 'string', 'max:255'],
+            'image'       => ['nullable', 'mimes:jpg,png,jpeg', 'max:2048'],
+            'stock'       => ['required', 'string', 'max:255'],
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+        $product->stock = $request->stock;
+
+        // Jika ada upload gambar baru, hapus gambar lama lalu simpan yang baru
+        if ($request->hasFile('image')) {
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+            $product->image = $request->file('image')->store('products', 'public');
+        }
+
+        $product->save();
+
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Product successfully updated!');
+    }
+
+    // Menghapus data produk berdasarkan ID (Sesi 22)
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
             Storage::disk('public')->delete($product->image);
         }
+        
         $product->delete();
 
-        return redirect()->route('products')->with('success', 'Produk berhasil dihapus!');
+        return redirect()->back()
+            ->with('success', 'Product has successfully deleted!');
     }
-
-    public function store(Request $request)
-{
-    // Validasi input data produk
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'description' => ['required', 'string', 'max:255'],
-        'price' => ['required', 'string', 'max:255'],
-        'category_id' => ['required', 'max:255'],
-        'image' => ['required', 'mimes:jpg,png,jpeg', 'max:2048'],
-        'stock' => ['required', 'string', 'max:255'],
-    ]);
-
-    // Cari kategori berdasarkan ID yang dipilih
-    $product_category = Category::find($request->category_id);
-
-    // Simpan data produk baru ke database
-    $product = new Product();
-    $product->name = $request->name;
-    $product->description = $request->description;
-    $product->price = $request->price;
-    $product->category_id = $product_category->id;
-    
-    // Menyimpan file gambar ke folder storage/app/public
-    $product->image = $request->file('image')->store('public');
-    
-    $product->stock = $request->stock;
-    $product->save();               
-
-    // Arahkan kembali ke halaman index produk setelah berhasil
-    return redirect()->route('admin.products.index');
-}
 }

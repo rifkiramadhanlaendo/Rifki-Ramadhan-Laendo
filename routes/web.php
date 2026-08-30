@@ -19,18 +19,9 @@ Route::get('/dashboard', function () {
 
 // Halaman Publik (Produk, Keranjang, Order)
 Route::get('/products', [ProductController::class, 'index'])->name('products');
-
-// Route untuk Produk (Admin)
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('product.create');
-Route::post('/admin/products', [ProductController::class, 'store'])->name('product.store');
-
-// Route untuk Kategori Produk (Admin)
-Route::get('/admin/product-categories/create', [CategoryController::class, 'create'])->name('product-category.create');
-Route::post('/admin/product-categories', [CategoryController::class, 'store'])->name('product-category.store');
 Route::get('/cart', function () {
     return view('cart');
 })->name('cart');
-
 Route::get('/orders', function () {
     return view('orders');
 })->name('orders');
@@ -42,17 +33,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route Khusus Admin (Wajib Login & Ber-role Admin)
+// ==================== ROUTE KHUSUS ADMIN ====================
+// Menggunakan Route::resource agar otomatis membuat rute: index, create, store, show, edit, update, destroy
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Menggunakan ProductController yang benar
+    // Rute Produk Admin (Otomatis menghasilkan admin.products.index, create, store, edit, update, destroy)
     Route::resource('products', ProductController::class);
-    Route::resource('categories', CategoryController::class);
     
-    // Tambahan Route Kategori Produk (Sesi 20)
-    Route::get('/product-category/create', [ProductCategoryController::class, 'create'])->name('product-category.create');
-    Route::post('/product-category', [ProductCategoryController::class, 'store'])->name('product-category.store');
+    // Rute Kategori Admin
+    Route::resource('categories', CategoryController::class);
+    Route::resource('product-categories', ProductCategoryController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -1,60 +1,70 @@
 <x-app-layout>
-    <div class="py-12 bg-gradient-to-br from-blue-50 via-white to-gray-100 min-h-screen">
-        <div class="max-w-3xl mx-auto px-6">
-            <div class="bg-white shadow-xl rounded-xl p-8 border-t-4 border-blue-600">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Product</h2>
+    <div style="padding: 40px 0;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 0 20px; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 24px; color: #1f2937;">Edit Produk</h2>
 
-                <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+            <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Name</label>
-                        <input type="text" name="name" value="{{ old('name', $product->name) }}" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
-                    </div>
+                <!-- Nama Produk -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #374151;">Name</label>
+                    <input type="text" name="name" value="{{ old('name', $product->name) }}" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box;" required>
+                </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
-                        <select name="category_id" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                <!-- Kategori -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #374151;">Category</label>
+                    <select name="category_id" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; background: white; box-sizing: border-box;" required>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
-                        <textarea name="description" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">{{ old('description', $product->description) }}</textarea>
-                    </div>
+                <!-- Deskripsi -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #374151;">Description</label>
+                    <textarea name="description" rows="4" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box;">{{ old('description', $product->description) }}</textarea>
+                </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Stok</label>
-                        <input type="number" name="stock" value="{{ old('stock', $product->stock) }}" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
-                    </div>
+                <!-- Stok -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #374151;">Stok</label>
+                    <input type="number" name="stock" value="{{ old('stock', $product->stock) }}" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box;" required>
+                </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Price</label>
-                        <input type="number" name="price" value="{{ old('price', $product->price) }}" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" required>
-                    </div>
+                <!-- Price -->
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #374151;">Price</label>
+                    <input type="text" name="price" value="{{ old('price', $product->price) }}" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box;" required>
+                </div>
 
-                    <div class="mb-4">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Image</label>
-                        @if($product->image)
-                            <div class="mb-2">
-                                <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('storage/' . $product->image) }}" width="80" class="rounded shadow">
-                            </div>
-                        @endif
-                        <input type="file" name="image" class="w-full px-4 py-2 border rounded-lg bg-gray-50">
-                    </div>
+                <!-- Image -->
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #374151;">Image</label>
+                    @if($product->image)
+                        <div style="margin-bottom: 8px;">
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px;">
+                        </div>
+                    @endif
+                    <input type="file" name="image" style="width: 100%; padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; background: #f9fafb;">
+                    <small style="color: #6b7280; display: block; margin-top: 4px;">Biarkan kosong jika tidak ingin mengubah gambar.</small>
+                </div>
 
-                    <div class="flex justify-end gap-4 mt-6">
-                        <a href="{{ route('admin.products.index') }}" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">Cancel</a>
-                        <button type="submit" class="px-6 py-2 bg-blue-900 text-white font-semibold rounded-lg hover:bg-blue-800">UPDATE</button>
-                    </div>
-                </form>
-            </div>
+                <!-- Tombol Aksi (Cancel & Simpan Perubahan) -->
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <a href="{{ route('admin.products.index') }}" style="background-color: #9ca3af; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                        Cancel
+                    </a>
+                    <button type="submit" style="background-color: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </x-app-layout>
