@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductCategoryController;
@@ -12,10 +12,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// Dashboard Umum (Untuk user biasa yang sudah login)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Dashboard Umum (Sekarang sudah terhubung ke DashboardController agar datanya tidak error)
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Halaman Publik (Produk, Keranjang, Order)
 Route::get('/products', [ProductController::class, 'index'])->name('products');
@@ -33,14 +31,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// ==================== ROUTE KHUSUS ADMIN ====================
-// Menggunakan Route::resource agar otomatis membuat rute: index, create, store, show, edit, update, destroy
+// =================== ROUTE KHUSUS ADMIN ===================
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
-    // Rute Produk Admin (Otomatis menghasilkan admin.products.index, create, store, edit, update, destroy)
+
+    // Rute Produk Admin
     Route::resource('products', ProductController::class);
-    
+
     // Rute Kategori Admin
     Route::resource('categories', CategoryController::class);
     Route::resource('product-categories', ProductCategoryController::class);
