@@ -19,7 +19,11 @@
             
             <div style="display: flex; gap: 15px; justify-content: center;">
                 <a href="/produk" style="background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);">Lihat Daftar Produk</a>
-                <a href="/keranjang" style="background-color: #e2e8f0; color: #334155; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">Keranjang Saya</a>
+                <a href="https://wa.me/6282399114997?text=Halo,%20saya%20tertarik%20dengan%20produk%20di%20website%20Anda" 
+                target="_blank" 
+                style="background-color: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                Hubungi via WhatsApp
+                </a>
             </div>
         </div>
     </div>

@@ -35,8 +35,10 @@
                         <p class="text-gray-500 text-xs mt-1 mb-4">Stok: {{ $product->stock }}</p>
 
                         <!-- Tombol Beli -->
-                        <a href="/keranjang" class="block w-full text-center bg-red-600 hover:bg-red-700 text-white py-2 rounded-md font-semibold mb-2">
-                            Beli Sekarang
+                        <a href="https://wa.me/6282399114997?text=Halo,%20saya%20tertarik%20dengan%20produk%20{{ $product->name }}" 
+                        target="_blank" 
+                        class="block w-full text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-md font-semibold">
+                        Beli Sekarang via WhatsApp
                         </a>
 
                         <!-- Tombol Edit -->

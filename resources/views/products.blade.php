@@ -30,8 +30,10 @@
 
                         <div class="space-y-2">
                             <!-- Tombol Beli Sekarang -->
-                            <a href="/keranjang" class="block w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-md transition">
-                                Beli Sekarang
+                            <a href="https://wa.me/6282399114997?text=Halo,%20saya%20tertarik%20dengan%20produk%20di%20website%20Anda" 
+                            target="_blank" 
+                            style="background-color: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                            Hubungi via WhatsApp
                             </a>
 
                             <!-- Tombol Edit dan Hapus -->

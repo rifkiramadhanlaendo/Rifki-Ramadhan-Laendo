@@ -30,8 +30,10 @@
                         <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 0 0 20px 0;">{{ $product['description'] }}</p>
                     </div>
                     
-                    <a href="/keranjang" style="background-color: #2563eb; color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; font-weight: 600; text-align: center; font-size: 14px; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">
-                        Beli Sekarang
+                    <a href="https://wa.me/6282399114997?text=Halo,%20saya%20tertarik%20dengan%20produk%20di%20website%20Anda" 
+                    target="_blank" 
+                    style="background-color: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                    Hubungi via WhatsApp
                     </a>
                 </div>
             @endforeach

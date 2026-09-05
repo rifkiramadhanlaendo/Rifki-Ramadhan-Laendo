@@ -34,9 +34,11 @@
                         <p style="color: #4f46e5; font-weight: bold; font-size: 16px; margin-bottom: 4px;">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
                         <p style="color: #6b7280; font-size: 12px; margin-bottom: 16px;">Stok: {{ $product->stock }}</p>
 
-                        <!-- Tombol Beli Sekarang -->
-                        <a href="/keranjang" style="display: block; width: 100%; text-align: center; background-color: #dc2626; color: white; padding: 10px 0; border-radius: 6px; font-weight: bold; text-decoration: none; margin-bottom: 8px; box-sizing: border-box;">
-                            Beli Sekarang
+                       <!-- Tombol Beli via WhatsApp -->
+                        <a href="https://wa.me/6282399114997?text=Halo,%20saya%20tertarik%20dengan%20produk%20{{ $product->name }}" 
+                        target="_blank" 
+                        style="display: block; width: 100%; text-align: center; background-color: #16a34a; color: white; padding: 10px 0; text-decoration: none; border-radius: 6px; font-weight: bold; margin-bottom: 8px;">
+                        Beli Sekarang via WhatsApp
                         </a>
 
                         <!-- Tombol Edit -->
